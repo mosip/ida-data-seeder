@@ -1,6 +1,5 @@
 
 from dynaconf import Dynaconf
-from cryptography.hazmat.primitives import hashes
 import requests
 import hmac
 import hashlib
@@ -18,7 +17,6 @@ class EventDataUploader(object):
                       'x-hub-signature': self._build_header(event_data)}
         cred_service_url = self.seeder_config.ida.cred_service_url + self.seeder_config.datashare.partner_id
         resp = requests.post(cred_service_url, data=event_data, headers=cus_header)
-        print (resp.status_code)
         print (resp.text)
         
 

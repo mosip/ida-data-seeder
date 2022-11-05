@@ -1,5 +1,4 @@
 
-from urllib import request
 from dynaconf import Dynaconf
 import uuid
 from datetime import datetime, timedelta

@@ -7,7 +7,7 @@ class CryptoDataProvider(object):
     def __init__(self, seeder_config: Dynaconf) :
         self.salt_crypto_data = CryptoDataProvider._read_files(seeder_config.random_generator.salt_file_store)
         self.zk_keys_data = CryptoDataProvider._read_files(seeder_config.random_generator.zk_keys_file_store)
-        
+        self.is_ida_ver_115 = seeder_config.ida.is_ida_ver_115
 
     @staticmethod
     def _read_files(file_path: str):
@@ -22,6 +22,9 @@ class CryptoDataProvider(object):
         return crypto_data
 
     def get_salt_crypto_data(self, index: int):
+        if self.is_ida_ver_115:
+            return self.salt_crypto_data.get(index.lstrip('0'), None)
+
         return self.salt_crypto_data.get(index, None)
 
     def get_zk_key(self, index: int):
