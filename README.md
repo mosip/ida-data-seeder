@@ -1,4 +1,4 @@
-# IDA-Data-Deeder
+# IDA Data Seeder
 ## Overview
 A Python utility to import data into IDA component.
 
