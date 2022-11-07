@@ -16,12 +16,12 @@ A Python utility to import data into IDA component.
 
 - Initialize virtualenv:
     ```sh
-    virtualenv -p python3 venv_ida_data_seeder
+    virtualenv -p python3 ~/.venv/ida-seeder
     ```
 
 - Install the python requirements:
     ```sh
-    source venv_ida_data_seeder/bin/activate
+    source ~/.venv/ida-seeder/bin/activate
     pip3 install -r requirements.txt
     deactivate
     ```
@@ -45,6 +45,5 @@ A Python utility to import data into IDA component.
 
 ### Run
 ```sh
-source venv_ida_data_seeder/bin/activate
-python3 data_seeder/seeder_main.py
+python data_seeder/seeder_main.py
 ```
