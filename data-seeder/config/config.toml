@@ -1,37 +1,51 @@
+# Property to specify environment host where data needs to be imported. Modify this property to point to any other environment  
 [mosip_env]
 host_url='https://qa3.mosip.net'
 
+# Properties for building websub event. No modification required for this properties.  
 [mosip_websub]
 publisher='CREDENTIAL_SERVICE'
 topic='mpartner-default-auth/CREDENTIAL_ISSUED'
 
+# Properties for the input data file path and separator. Modify this property to specify correct file path.
 [input]
-file_path='/opt/taheer-mos/mosip/ida-data-seeder/auth-data-seeder/data-seeder/sample/test-import-qa3.csv'
+file_path='/data-seeder/sample/test-import-qa3.csv'
 separator='|'
 
-# Note Providing full file path to take it to outside application.
+# Salts needs to be exported from the "ID_REPO" database, 'uin_hash_salt' table from respective environment.
+# Exported salt values should be a csv file and should contains only id and salt,
+# Eg: 1,PwNa9oV+GtusHPxAumIssA== 
 [random_generator]
 salt_start_index=0
 salt_max_index=1000
-salt_file_store='/opt/taheer-mos/mosip/ida-data-seeder/auth-data-seeder/data-seeder/secrets-store/secret_salts-qa3.txt'
+salt_file_store='data-seeder/secrets-store/secret_salts-qa3.txt'
 salt_bytes_size=16
 
+# Zero knowledges required for IDA data encryption.
+# Keys will automatically gets generated in case file is not available.
 zk_keys_start_index=10001
 zk_keys_max_index=15000
-zk_keys_file_store='/opt/taheer-mos/mosip/ida-data-seeder/auth-data-seeder/data-seeder/secrets-store/zk_keys.txt'
+zk_keys_file_store='/data-seeder/secrets-store/zk_keys.txt'
 zk_key_bytes_size=32
 
+# Keycloak server url, user name & user secret to get the authentication token from keycloak
 [key_cloak]
 url='https://qa3.mosip.net/keycloak/auth/realms/mosip/protocol/openid-connect/token'
 user_name='mosip-creser-client'
 user_secret=''
 
+# 'public_key' - IDA Credential service certificate to encrypt the zk key.
+# 'websub_secret' - Websub secret to generate websub signature header for authentication
+# 'cred_service_url' - IDA credential service websub callback url to upload the data.
+# 'is_ida_ver_115' - set the property to true if data is uploading for 1.1.5 version of IDA
 [ida]
-public_key='/home/mahammedtaheer/Desktop/keys/qa3/ida-cred-serv.cer'
+public_key='ida-cred-serv.cer'
 websub_secret=''
 cred_service_url='https://qa3.mosip.net/idauthentication/v1/internal/callback/idchange/credential_issued/'
 is_ida_ver_115=true
 
+# Datashare request creation properties. No need to modify any properties except sign_p12_file and p12_pwd
+# provide a p12 file to add proof signature in websub event data.
 [datashare]
 create_url='https://qa3.mosip.net/v1/datashare/create'
 policy_id='mpolicy-default-auth'
@@ -41,7 +55,10 @@ schema_name='MOSIPVerifiableCredential'
 format_issuer='https://mosip.io/issuers/'
 issuer='mpartner-default-auth'
 timestamp_format='%Y-%m-%dT%H:%M:%S'
-sign_p12_file='/home/mahammedtaheer/Desktop/keys/local-test-partner/partner.p12'
+sign_p12_file='partner.p12'
 p12_pwd=''
 replace_external_url=false
 
+# List of fields needs to be skipped when constructing json format with provided language. 
+[json]
+skip_fields='id,vid,language,dateOfBirth,mobileno,email'

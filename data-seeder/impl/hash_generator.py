@@ -1,7 +1,6 @@
 
 from cryptography.hazmat.primitives import hashes
 from .crypto_data_provider import CryptoDataProvider
-import base64
 from dynaconf import Dynaconf
 
 class IdHashGenerator(object):

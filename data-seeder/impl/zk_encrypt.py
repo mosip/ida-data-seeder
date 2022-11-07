@@ -53,18 +53,18 @@ class ZKEncryptor(object):
         enc_random_key = self._enc_random_key(random_key)
         return enc_values, enc_random_key, rand_index
 
-    def zk_encrypt_dyn_data(self, input_data: object) -> dict:
+    def zk_encrypt_dyn_data(self, input_data: object, id_field_key: str) -> dict:
 
         rand_index = random.randint(self.seeder_config.random_generator.zk_keys_start_index, 
                         self.seeder_config.random_generator.zk_keys_max_index)
         random_key = self.crypto_data_provider.get_zk_key(str(rand_index))
-        id = input_data.__fields__['id'].default
+        id = input_data.__fields__[id_field_key].default
         derived_key = self._get_derived_key(id, random_key)
 
         enc_values = {}
 
         for field_key in input_data.__fields__.keys(): 
-            if field_key == 'id':
+            if field_key in ['id', 'vid']:
                 continue
             
             field_value, is_json = ZKEncryptor._get_json_obj(input_data.__fields__[field_key].default)
@@ -112,8 +112,11 @@ class ZKEncryptor(object):
 
     @staticmethod
     def _get_json_obj(field_value: str):
+        if isinstance(field_value, list):
+            return field_value, True
+
         if not field_value or len(field_value.strip()) == 0:
-            return list()
+            return list(), False
         try:
             if field_value.isdigit():
                 return field_value, False

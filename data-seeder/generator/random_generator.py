@@ -1,5 +1,4 @@
 from inspect import _void
-from zope.interface import  Interface, Attribute, implementer
 import secrets
 from pathlib import Path
 import base64
@@ -15,7 +14,7 @@ class RandomGenerator(object):
     def generate_random_secrect_and_store(self):
         file_path = Path(self.store_file_path)
         if (file_path.is_file()):
-            print ('File Exists, Ramdom might have generated.')
+            print ('File Exists, Ramdom Secrets might have generated.')
             return
 
         print ('Generating Random bytes for max index: ' + str(self.max_index_number))
