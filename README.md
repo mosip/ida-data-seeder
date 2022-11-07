@@ -2,7 +2,7 @@
 ## Overview
 A Python utility to import data into IDA component.
 
-## List of components needs to deployed to import the data
+## Dependent services
 - All IDA Components (Internal Service, Auth Service, OTP Service)
 - Data Share Service
 - Kernel Key Manager Service (Data Share Service call Key Manager APIs to perform data encryption)
@@ -10,7 +10,7 @@ A Python utility to import data into IDA component.
 - Websub Service (To publish the onboarded partner details to IDA Service) 
 
 
-## Steps to Run the Utility 
+## Run
 
 ### Pre-requisites
 
@@ -43,7 +43,7 @@ A Python utility to import data into IDA component.
 	-- Mandatory column headers are `language`, `id or vid` 
 		
 
-### Run the Utility
+### Run
 ```sh
 source venv_ida_data_seeder/bin/activate
 python3 data_seeder/seeder_main.py
